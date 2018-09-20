@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Assignment3</string>
+
+    <string-array name="phones_array">
+        <item>Home</item>
+        <item>Mobile</item>
+    </string-array>
+</resources>
