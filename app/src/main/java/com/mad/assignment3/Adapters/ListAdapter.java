@@ -1,13 +1,16 @@
+package com.mad.assignment3.Adapters;
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
 
 public class ListAdapter extends  RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
-    public ListAdapter(Context context, List){
+    public ListAdapter(Context context, List list){
 
     }
 
@@ -25,5 +28,13 @@ public class ListAdapter extends  RecyclerView.Adapter<ListAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return 0;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+        }
     }
 }

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".Views.RegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,7 +21,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon" />
+                android:src="@drawable/icon"
+                android:contentDescription="icon" />
             <!-- image from http://www.iconarchive.com/show/100-flat-icons-by-graphicloads/home-icon.html -->
         </LinearLayout>
 
@@ -53,17 +54,10 @@
                     android:padding="10sp">
 
                     <EditText
-                        android:id="@+id/first_name"
+                        android:id="@+id/full_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="First Name"
-                        android:inputType="textPersonName|textCapWords" />
-
-                    <EditText
-                        android:id="@+id/last_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Last Name"
+                        android:hint="Full Name"
                         android:inputType="textPersonName|textCapWords" />
 
                     <EditText
@@ -72,6 +66,12 @@
                         android:layout_height="wrap_content"
                         android:hint="Email"
                         android:inputType="textEmailAddress" />
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Password"
+                        android:inputType="textPassword" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -104,19 +104,18 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/main_activity_submit_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="CLear ALl"
-                tools:ignore="NestedWeights" />
-
-            <Button
-                android:id="@+id/main_activity_clear_all_btn"
+                android:id="@+id/submit_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Submit" />
+
+            <Button
+                android:id="@+id/clear_all_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Clear All" />
 
         </LinearLayout>
     </LinearLayout>
