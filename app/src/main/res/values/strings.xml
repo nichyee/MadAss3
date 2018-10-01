@@ -5,4 +5,5 @@
         <item>Home</item>
         <item>Mobile</item>
     </string-array>
+    <string name="title_activity_household">HouseholdActivity</string>
 </resources>

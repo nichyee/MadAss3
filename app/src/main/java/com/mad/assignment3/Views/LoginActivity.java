@@ -47,9 +47,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
-            Toast.makeText(LoginActivity.this, "You good",
-                    Toast.LENGTH_SHORT).show();
-            mEmailEditText.setText(firebaseUser.getDisplayName());
+            Intent intent = new Intent(LoginActivity.this, HouseholdActivity.class);
+            startActivity(intent);
         } else {
             Toast.makeText(LoginActivity.this, "You aint good",
                     Toast.LENGTH_SHORT).show();

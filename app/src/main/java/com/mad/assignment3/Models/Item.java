@@ -5,6 +5,11 @@ public class Item {
     private String mName;
     private double mAmount;
 
+    public Item(String name, double amount){
+        mName = name;
+        mAmount = amount;
+    }
+
     public String getName() {
         return mName;
     }
