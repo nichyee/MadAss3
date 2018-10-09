@@ -17,28 +17,26 @@ import com.mad.assignment3.Models.User;
 import com.mad.assignment3.Presenters.RegisterActivityPresenter;
 import com.mad.assignment3.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RegisterActivity extends AppCompatActivity implements RegisterActivityPresenter.View{
 
     private static final String TAG = "LOG";
 
-    private EditText mEmailField;
-    private EditText mPasswordField;
-    private EditText mNameField;
+    @BindView(R.id.email) EditText mEmailField;
+    @BindView(R.id.password) EditText mPasswordField;
+    @BindView(R.id.full_name) EditText mNameField;
     private RegisterActivityPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-
-       mPresenter = new RegisterActivityPresenter(this, this, auth);
-
-        mNameField = findViewById(R.id.full_name);
-        mEmailField = findViewById(R.id.email);
-        mPasswordField = findViewById(R.id.password);
+        mPresenter = new RegisterActivityPresenter(this, this, auth);
         Button submitBtn = findViewById(R.id.submit_btn);
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -48,10 +46,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
                 String email = mEmailField.getText().toString();
                 String password = mPasswordField.getText().toString();
                 ProgressDialog dialog = new ProgressDialog(RegisterActivity.this);
-                new RegisterActivityPresenter.RegisterUserAsync(RegisterActivity.this, name, email, password, dialog).execute();
+                new RegisterActivityPresenter.RegisterUserAsync(name, email, password, dialog).execute();
             }
         });
-
     }
 
     @Override

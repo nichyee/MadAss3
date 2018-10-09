@@ -18,21 +18,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.mad.assignment3.Presenters.LoginActivityPresenter;
 import com.mad.assignment3.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class LoginActivity extends AppCompatActivity implements LoginActivityPresenter.View{
     private LoginActivityPresenter mPresenter;
-
-    private static final int REQUEST_CODE = 1;
-    private static final String TAG = "LOGIN_ACTIVITY";
     private FirebaseAuth mAuth;
-    private EditText mEmailEditText;
-    private EditText mPasswordEditText;
+
+    @BindView(R.id.email_edit_text) EditText mEmailEditText;
+    @BindView(R.id.password_edit_text) EditText mPasswordEditText;
 
 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             updateUI(currentUser);
@@ -43,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityPre
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
         mPresenter = new LoginActivityPresenter(this, this);
 
@@ -50,14 +50,12 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityPre
 
         Button loginBtn = findViewById(R.id.login_button);
         Button registerBtn = findViewById(R.id.register_button);
-        mEmailEditText = findViewById(R.id.email_edit_text);
-        mPasswordEditText = findViewById(R.id.password_edit_text);
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivityForResult(intent, REQUEST_CODE);
+                startActivity(intent);
             }
         });
 
@@ -75,13 +73,6 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityPre
         if (firebaseUser != null) {
             Intent intent = new Intent(LoginActivity.this, HouseholdActivity.class);
             startActivity(intent);
-        } else {
-            Toast.makeText(LoginActivity.this, "You aint good",
-                    Toast.LENGTH_SHORT).show();
-            mEmailEditText.setText("");
         }
-
-        mPasswordEditText.setText("");
-
     }
 }

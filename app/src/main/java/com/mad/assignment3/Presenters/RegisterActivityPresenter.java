@@ -57,7 +57,6 @@ public class RegisterActivityPresenter {
                                 mFirebaseUser = mAuth.getCurrentUser();
                                 assert mFirebaseUser != null;
                                 updateName(mFirebaseUser, name);
-                                //mView.updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -91,7 +90,7 @@ public class RegisterActivityPresenter {
         private String mPassword;
         public static ProgressDialog mDialog;
 
-        public RegisterUserAsync(Activity activity, String name, String email, String password, ProgressDialog dialog) {
+        public RegisterUserAsync(String name, String email, String password, ProgressDialog dialog) {
             dialog = new ProgressDialog(mActivity);
             mDialog = dialog;
             this.mName = name;
@@ -112,25 +111,29 @@ public class RegisterActivityPresenter {
         protected User doInBackground(Void... voids) {
 
             registerUser(mEmail, mPassword, mName);
-            Task<AuthResult> authResultTask = mAuth.createUserWithEmailAndPassword(mEmail, mPassword)
-                    .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success");
-                                mFirebaseUser = mAuth.getCurrentUser();
-                                updateName(mFirebaseUser, mName);
-                                User user = new User(mName, mEmail);
+            Task<AuthResult> authResultTask = mAuth.createUserWithEmailAndPassword(mEmail, mPassword);
+//                    .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<AuthResult> task) {
+//                            if (task.isSuccessful()) {
+//                                // Sign in success, update UI with the signed-in user's information
+//                                Log.d(TAG, "createUserWithEmail:success");
+//
+//                                User user = new User(mName, mEmail);
+//
+//                                //mView.updateUI(user);
+//                            } else {
+//                                // If sign in fails, display a message to the user.
+//                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+//                                //mView.updateUI(null);
+//                            }
+//                        }
+//                    });
+            do {
 
-                                //mView.updateUI(user);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                //mView.updateUI(null);
-                            }
-                        }
-                    });
+            } while (!authResultTask.isComplete());
+            mFirebaseUser = mAuth.getCurrentUser();
+            updateName(mFirebaseUser, mName);
             return generateUser(mName, mEmail);
         }
 
