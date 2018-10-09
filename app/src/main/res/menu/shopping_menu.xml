@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.mad.exercise5.HouseholdActivity">
+
+    <item
+        android:id="@+id/add_member_item"
+        android:orderInCategory="100"
+        android:title="Add Member"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/remove_all_item"
+        android:orderInCategory="100"
+        android:title="Clear Shopping List"
+        app:showAsAction="never" />
+</menu>
