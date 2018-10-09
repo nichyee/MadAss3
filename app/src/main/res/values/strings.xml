@@ -6,4 +6,5 @@
         <item>Mobile</item>
     </string-array>
     <string name="title_activity_household">HouseholdActivity</string>
+    <string name="title_activity_shopping_list">shopping_list</string>
 </resources>

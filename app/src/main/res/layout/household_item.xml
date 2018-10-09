@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20sp">
+
+    <TextView
+        android:id="@+id/house_key"
+        android:layout_width="0sp"
+        android:layout_height="0sp"
+        android:text=""/>
+
 
     <LinearLayout
+        android:id="@+id/household_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
-        <TextView
-            android:id="@+id/household_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Household Name"
-            android:textStyle="bold"
-            android:textSize="30sp"/>
 
-        <TextView
-            android:id="@+id/household_users_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User 1, User 2, User 3..."
-            android:textSize="15sp"/>
+    <TextView
+        android:id="@+id/household_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Household Name"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/household_users_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="User 1, User 2, User 3..."
+        android:textSize="15sp" />
 
     </LinearLayout>
+
+
+
 
 </RelativeLayout>

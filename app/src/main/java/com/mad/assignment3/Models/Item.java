@@ -3,12 +3,14 @@ package com.mad.assignment3.Models;
 public class Item {
 
     private String mName;
-    private double mAmount;
+    private String mAmount;
 
-    public Item(String name, double amount){
+    public Item(String name, String amount){
         mName = name;
         mAmount = amount;
     }
+
+    public Item(){}
 
     public String getName() {
         return mName;
@@ -18,17 +20,12 @@ public class Item {
         mName = name;
     }
 
-    public double getAmount() {
+    public String getAmount() {
         return mAmount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(String amount) {
         mAmount = amount;
     }
-
-
-
-
-
 
 }

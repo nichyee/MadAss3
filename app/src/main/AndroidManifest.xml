@@ -17,10 +17,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".Views.RegisterActivity" />
-        <activity android:name=".Views.ShoppingListActivity" />
         <activity
             android:name=".Views.HouseholdActivity"
             android:label="@string/title_activity_household"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Views.ShoppingListActivity"
+            android:label="@string/title_activity_shopping_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

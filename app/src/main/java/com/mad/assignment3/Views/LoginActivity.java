@@ -15,9 +15,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mad.assignment3.Presenters.LoginActivityPresenter;
 import com.mad.assignment3.R;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginActivityPresenter.View{
+    private LoginActivityPresenter mPresenter;
+
     private static final int REQUEST_CODE = 1;
     private static final String TAG = "LOGIN_ACTIVITY";
     private FirebaseAuth mAuth;
@@ -29,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             updateUI(currentUser);
@@ -36,33 +40,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                updateUI(mAuth.getCurrentUser());
-            }
-        }
-    }
-
-    private void updateUI(FirebaseUser firebaseUser) {
-        if (firebaseUser != null) {
-            Intent intent = new Intent(LoginActivity.this, HouseholdActivity.class);
-            startActivity(intent);
-        } else {
-            Toast.makeText(LoginActivity.this, "You aint good",
-                    Toast.LENGTH_SHORT).show();
-            mEmailEditText.setText("");
-        }
-
-        mPasswordEditText.setText("");
-
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mPresenter = new LoginActivityPresenter(this, this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -82,34 +64,24 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signInProcess();
+                String email = mEmailEditText.getText().toString();
+                String password = mPasswordEditText.getText().toString();
+                mPresenter.signInProcess(email, password, mAuth);
             }
         });
     }
 
-    private void signInProcess() {
-        String email = mEmailEditText.getText().toString();
-        String password = mPasswordEditText.getText().toString();
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            //Toast.makeText(LoginActivity.this, "Authentication failed.",
-                            //        Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
+    public void updateUI(FirebaseUser firebaseUser) {
+        if (firebaseUser != null) {
+            Intent intent = new Intent(LoginActivity.this, HouseholdActivity.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(LoginActivity.this, "You aint good",
+                    Toast.LENGTH_SHORT).show();
+            mEmailEditText.setText("");
+        }
 
-                        // ...
-                    }
-                });
+        mPasswordEditText.setText("");
 
     }
 }
