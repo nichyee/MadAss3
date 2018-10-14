@@ -36,6 +36,14 @@ import java.util.HashMap;
 
 public class HouseholdActivityPresenter {
 
+    private static final String HOUSEHOLD_CONSTANT = "households";
+    private static final String USERS_CONSTANT = "users";
+    private static final String FIREBASE_KEY_CONSTANT = "firebaseKey";
+    private static final String NAME_CONSTANT = "name";
+    private static final String EMAIL_CONSTANT = "email";
+    private static final String SHOPPING_LIST_CONSTANT = "shoppingList";
+
+
     private ProgressDialog mDialog;
     private View mView;
     private Activity mActivity;
@@ -69,7 +77,7 @@ public class HouseholdActivityPresenter {
 
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("Create",
+                .setPositiveButton(R.string.create,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -77,7 +85,7 @@ public class HouseholdActivityPresenter {
                                 new AddHouseholdAsync(mActivity).execute();
                             }
                         })
-                .setNegativeButton("Cancel",
+                .setNegativeButton(R.string.cancel,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -110,7 +118,7 @@ public class HouseholdActivityPresenter {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDialog.setMessage("Please Wait");
+            mDialog.setMessage(mActivity.getString(R.string.please_waits));
             mDialog.show();
         }
 
@@ -124,11 +132,11 @@ public class HouseholdActivityPresenter {
             super.onPostExecute(household);
 
             if (!(household == null)) {
-                DatabaseReference ref = mReference.child("households").push();
+                DatabaseReference ref = mReference.child(HOUSEHOLD_CONSTANT).push();
 
                 ref.setValue(household);
-                ref.child("users").push().setValue(mCurrentUser);
-                ref.child("firebaseKey").setValue(ref.getKey());
+                ref.child(USERS_CONSTANT).push().setValue(mCurrentUser);
+                ref.child(FIREBASE_KEY_CONSTANT).setValue(ref.getKey());
 
             }
 
@@ -164,34 +172,33 @@ public class HouseholdActivityPresenter {
             ArrayList<User> users = new ArrayList<>();
             ArrayList<Item> items = new ArrayList<>();
 
-            HashMap userHashMap = (HashMap) hashMap.get("users");
+            HashMap userHashMap = (HashMap) hashMap.get(USERS_CONSTANT);
             if (userHashMap != null) {
                 for (Object object : userHashMap.values()) {
                     HashMap temp = (HashMap) object;
-                    Log.d("ASOIJDA", temp.toString());
-                    String name = temp.get("name").toString();
-                    String email = temp.get("email").toString();
+                    String name = temp.get(NAME_CONSTANT).toString();
+                    String email = temp.get(EMAIL_CONSTANT).toString();
                     User user = new User(name, email);
                     users.add(user);
                 }
             }
 
-            HashMap shoppingListHashMap = (HashMap) hashMap.get("shoppingList");
+            HashMap shoppingListHashMap = (HashMap) hashMap.get(SHOPPING_LIST_CONSTANT);
             if (shoppingListHashMap != null) {
                 for (Object object : shoppingListHashMap.values()) {
                     HashMap temp = (HashMap) object;
-                    String name = temp.get("name").toString();
-                    String amount = temp.get("amount").toString();
+                    String name = temp.get(NAME_CONSTANT).toString();
+                    String amount = temp.get(EMAIL_CONSTANT).toString();
                     Item item = new Item(name, amount);
                     items.add(item);
                 }
             }
 
-            String householdName = hashMap.get("name").toString();
+            String householdName = hashMap.get(NAME_CONSTANT).toString();
             Household household;
 
-            if (hashMap.get("firebaseKey") != null) {
-                String firebaseKey = hashMap.get("firebaseKey").toString();
+            if (hashMap.get(FIREBASE_KEY_CONSTANT) != null) {
+                String firebaseKey = hashMap.get(FIREBASE_KEY_CONSTANT).toString();
                 household = new Household(householdName, users, items, firebaseKey);
             } else {
                 household = new Household(householdName, users, items);

@@ -19,6 +19,8 @@ import com.mad.assignment3.R;
 
 public class RegisterActivityPresenter {
 
+    private static final String USERS_CONSTANT = "users";
+
     private static FirebaseAuth mAuth;
     @SuppressLint("StaticFieldLeak")
     private static Activity mActivity;
@@ -96,7 +98,7 @@ public class RegisterActivityPresenter {
             assert firebaseUser != null;
             updateName(firebaseUser, mName);
             User user = new User(mName, mEmail);
-            mUserRef.child("users").push().setValue(user);
+            mUserRef.child(USERS_CONSTANT).push().setValue(user);
             return user;
         }
 
@@ -134,10 +136,10 @@ public class RegisterActivityPresenter {
 
         String email = emailEditText.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            emailEditText.setError("Required.");
+            emailEditText.setError(mActivity.getString(R.string.required));
             valid = false;
         } else if (!email.contains("@") || !email.contains(".")) {
-            emailEditText.setError("Please input a valid email address");
+            emailEditText.setError(mActivity.getString(R.string.valid_email_address));
             valid = false;
         } else {
             emailEditText.setError(null);
@@ -145,10 +147,10 @@ public class RegisterActivityPresenter {
 
         String password = passwordEditText.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError("Required.");
+            passwordEditText.setError(mActivity.getString(R.string.required));
             valid = false;
         } else if (password.length() < 6) {
-            passwordEditText.setError("Password must be longer than six characters");
+            passwordEditText.setError(mActivity.getString(R.string.longer_than_six));
             valid = false;
         } else {
             passwordEditText.setError(null);
@@ -156,7 +158,7 @@ public class RegisterActivityPresenter {
 
         String name = passwordEditText.getText().toString();
         if (TextUtils.isEmpty(name)) {
-            nameEditText.setError("Required.");
+            nameEditText.setError(mActivity.getString(R.string.required));
             valid = false;
         } else {
             nameEditText.setError(null);

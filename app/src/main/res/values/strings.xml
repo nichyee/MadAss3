@@ -26,8 +26,13 @@
     <string name="cleared_list">Shopping list cleared</string>
     <string name="name_quantity_warning">Please make sure both name and quantity are filled out</string>
     <string name="cancel">Cancel</string>
-    <string name="create">Create</string>
-    <string name="required">Required.</string>
     <string name="error">Something went wrong…Please try later!</string>
     <string name="recipe_rating">Recipe Rating:</string>
+    <string name="create">Create</string>
+    <string name="required">Required.</string>
+    <string name="valid_email_address">Please input a valid email address</string>
+    <string name="longer_than_six">Password must be longer than six characters</string>
+    <string name="incorrect_user_pass">Incorrect Username / Password</string>
+    <string name="please_wait">Please Wait</string>
+    <string name="please_waits">Please Wait</string>
 </resources>

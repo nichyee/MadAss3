@@ -31,6 +31,9 @@ import butterknife.ButterKnife;
 public class ShoppingListActivity extends AppCompatActivity {
 
     public static final String HOUSEHOLD_KEY = "";
+    private static final String HOUSEHOLDS_CONSTANT = "households";
+    private static final String SHOPPING_LIST_CONSTANT = "shoppingList";
+    private static final String USERS_CONSTANT = "users";
 
     private ProgressDialog mDialog;
     private DatabaseReference mReference;
@@ -49,7 +52,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
@@ -61,7 +64,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         mReference = FirebaseDatabase.getInstance().getReference();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +72,7 @@ public class ShoppingListActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference itemRef = mReference.child("households").child(mHouseholdName).child("shoppingList");
+        DatabaseReference itemRef = mReference.child(HOUSEHOLDS_CONSTANT).child(mHouseholdName).child(SHOPPING_LIST_CONSTANT);
         ValueEventListener itemListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -101,7 +104,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.add_member_item) {
-            final DatabaseReference currentUsers = mReference.child("households").child(mHouseholdName).child("users");
+            final DatabaseReference currentUsers = mReference.child(HOUSEHOLDS_CONSTANT).child(mHouseholdName).child(USERS_CONSTANT);
 
             currentUsers.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -116,7 +119,7 @@ public class ShoppingListActivity extends AppCompatActivity {
                 }
             });
 
-            DatabaseReference databaseReference = mReference.child("users");
+            DatabaseReference databaseReference = mReference.child(USERS_CONSTANT);
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -30,6 +30,8 @@ import butterknife.ButterKnife;
 
 public class HouseholdActivity extends AppCompatActivity {
 
+    private static final String HOUSEHOLDS_CONSTANT = "households";
+
     private DatabaseReference mReference;
     private ProgressDialog mDialog;
     private String mHouseholdName;
@@ -68,7 +70,7 @@ public class HouseholdActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference householdRef = FirebaseDatabase.getInstance().getReference().child("households");
+        DatabaseReference householdRef = FirebaseDatabase.getInstance().getReference().child(HOUSEHOLDS_CONSTANT);
         ValueEventListener houseListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

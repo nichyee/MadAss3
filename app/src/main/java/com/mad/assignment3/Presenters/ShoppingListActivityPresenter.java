@@ -36,6 +36,8 @@ public class ShoppingListActivityPresenter {
 
     private static final String HOUSEHOLD_CHILD =  "households";
     private static final String SHOPPING_LIST_CHILD = "shoppingList";
+    private static final String NAME_CONSTANT = "name";
+    private static final String EMAIL_CONSTANT = "email";
 
     private Context mContext;
     private Activity mActivity;
@@ -93,8 +95,8 @@ public class ShoppingListActivityPresenter {
         if (hashMap != null) {
             for (Object object : hashMap.values()) {
                 HashMap temp = (HashMap) object;
-                String name = temp.get("name").toString();
-                String email = temp.get("email").toString();
+                String name = temp.get(NAME_CONSTANT).toString();
+                String email = temp.get(EMAIL_CONSTANT).toString();
                 User newUser = new User(name, email);
                 users.add(newUser);
             }
@@ -120,8 +122,8 @@ public class ShoppingListActivityPresenter {
         if (hashMap != null) {
             for (Object object : hashMap.values()) {
                 HashMap temp = (HashMap) object;
-                String name = temp.get("name").toString();
-                String email = temp.get("email").toString();
+                String name = temp.get(NAME_CONSTANT).toString();
+                String email = temp.get(EMAIL_CONSTANT).toString();
                 User user = new User(name, email);
                 users.add(user);
             }
@@ -253,7 +255,7 @@ public class ShoppingListActivityPresenter {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDialog.setMessage("Please Wait");
+            mDialog.setMessage(mContext.getString(R.string.please_waits));
             mDialog.show();
         }
 
@@ -267,7 +269,7 @@ public class ShoppingListActivityPresenter {
             super.onPostExecute(item);
 
             if (!(item == null)) {
-                mReference.child("households").child(mHouseholdKey).child("shoppingList").push().setValue(item);
+                mReference.child(HOUSEHOLD_CHILD).child(mHouseholdKey).child(SHOPPING_LIST_CHILD).push().setValue(item);
             }
 
             if (mDialog.isShowing()) {

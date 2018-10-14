@@ -40,13 +40,12 @@ public class LoginActivityPresenter {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "signInWithEmail:success");
+
                             FirebaseUser user = auth.getCurrentUser();
                             mView.updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("TAG", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(mActivity, "Incorrect Username / Password",
+                            Toast.makeText(mActivity, R.string.incorrect_user_pass,
                                     Toast.LENGTH_LONG).show();
                         }
 
@@ -72,10 +71,10 @@ public class LoginActivityPresenter {
 
         String email = emailEditText.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            emailEditText.setError("Required.");
+            emailEditText.setError(mActivity.getString(R.string.required));
             valid = false;
         } else if (!email.contains("@") || !email.contains(".")) {
-            emailEditText.setError("Please input a valid email address");
+            emailEditText.setError(mActivity.getString(R.string.valid_email_address));
             valid = false;
         } else {
             emailEditText.setError(null);
@@ -83,10 +82,10 @@ public class LoginActivityPresenter {
 
         String password = passwordEditText.getText().toString();
         if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError("Required");
+            passwordEditText.setError(mActivity.getString(R.string.required));
             valid = false;
         } else if (password.length() < 6) {
-            passwordEditText.setError("Password must be longer than six characters");
+            passwordEditText.setError(mActivity.getString(R.string.longer_than_six));
             valid = false;
         } else {
             passwordEditText.setError(null);

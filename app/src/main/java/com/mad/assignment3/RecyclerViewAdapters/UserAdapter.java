@@ -18,6 +18,9 @@ import java.util.ArrayList;
 
 public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
+    private static final String HOUSEHOLD_CONSTANT = "households";
+    private static final String USERS_CONSTANT = "users";
+
     private ArrayList<User> mUsers;
     private String mFirebaseKey;
     private Context mContext;
@@ -57,7 +60,7 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.ViewHolder> {
      * @param user the user that is to be added to the household
      */
     private void addUser(User user) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("households").child(mFirebaseKey).child("users");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(HOUSEHOLD_CONSTANT).child(mFirebaseKey).child(USERS_CONSTANT);
         databaseReference.push().setValue(user);
 
     }
