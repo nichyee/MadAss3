@@ -64,6 +64,9 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityPre
             public void onClick(View v) {
                 String email = mEmailEditText.getText().toString();
                 String password = mPasswordEditText.getText().toString();
+                if (!mPresenter.validateForm()) {
+                    return;
+                }
                 mPresenter.signInProcess(email, password, mAuth);
             }
         });

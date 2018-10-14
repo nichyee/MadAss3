@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:text="Add New Member"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:paddingBottom="20sp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/add_member_recycler"

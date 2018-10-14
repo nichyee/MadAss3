@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -67,14 +68,37 @@ public class ShoppingListActivityPresenter {
         alertDialogBuilder.setCancelable(true);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
+
+
         alertDialog.show();
+    }
+
+    public ArrayList<User> setupNewUserList(DataSnapshot dataSnapshot, ArrayList<User> currentUsers) {
+        ArrayList<User> users = new ArrayList<>();
+        HashMap hashMap = (HashMap) dataSnapshot.getValue();
+        if (hashMap != null) {
+            for (Object object : hashMap.values()) {
+                HashMap temp = (HashMap) object;
+                String name = temp.get("name").toString();
+                String email = temp.get("email").toString();
+                User newUser = new User(name, email);
+                users.add(newUser);
+            }
+        }
+        ArrayList<Integer> indexList = new ArrayList<>();
+        for (User user : currentUsers) {
+            for (int i = 0; i < users.size(); i++){
+                if (user.getName().equals(users.get(i).getName())) {
+                    users.remove(i);
+                }
+            }
+        }
+        return users;
     }
 
     public ArrayList<User> setupUserList(DataSnapshot dataSnapshot) {
         ArrayList<User> users = new ArrayList<>();
-
         HashMap hashMap = (HashMap) dataSnapshot.getValue();
-
         if (hashMap != null) {
             for (Object object : hashMap.values()) {
                 HashMap temp = (HashMap) object;
@@ -112,6 +136,11 @@ public class ShoppingListActivityPresenter {
                             public void onClick(DialogInterface dialog, int which) {
                                 String name = itemNameEditText.getText().toString();
                                 String quantity = itemQuantityEditText.getText().toString();
+                                if (!validateForm(itemNameEditText, itemQuantityEditText)) {
+                                    Toast.makeText(mActivity, "Please make sure both name and quantity are filled out",
+                                            Toast.LENGTH_LONG).show();
+                                    return;
+                                }
                                 new AddItemAsync(mActivity, name, quantity).execute();
                             }
                         })
@@ -124,6 +153,28 @@ public class ShoppingListActivityPresenter {
                         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    private boolean validateForm(EditText nameEditText, EditText amountEditText) {
+        boolean valid = true;
+
+        String name = nameEditText.getText().toString();
+        if (TextUtils.isEmpty(name)) {
+            nameEditText.setError("Required.");
+            valid = false;
+        } else {
+            nameEditText.setError(null);
+        }
+
+        String amount = amountEditText.getText().toString();
+        if (TextUtils.isEmpty(amount)) {
+            amountEditText.setError("Required");
+            valid = false;
+        } else {
+            amountEditText.setError(null);
+        }
+
+        return valid;
     }
 
     public void setupRecyclerView(Context context, ArrayList<Item> mItems, RecyclerView recyclerView) {

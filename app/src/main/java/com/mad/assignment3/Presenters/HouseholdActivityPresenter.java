@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -163,6 +164,7 @@ public class HouseholdActivityPresenter {
             if (userHashMap != null) {
                 for (Object object : userHashMap.values()) {
                     HashMap temp = (HashMap) object;
+                    Log.d("ASOIJDA", temp.toString());
                     String name = temp.get("name").toString();
                     String email = temp.get("email").toString();
                     User user = new User(name, email);

@@ -5,14 +5,20 @@
     tools:context="com.mad.exercise5.HouseholdActivity">
 
     <item
+        android:id="@+id/search_menu_item"
+        android:orderInCategory="1"
+        android:title="Get Top Recipes"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/add_member_item"
-        android:orderInCategory="100"
+        android:orderInCategory="2"
         android:title="Add Member"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/remove_all_item"
-        android:orderInCategory="100"
+        android:orderInCategory="3"
         android:title="Clear Shopping List"
         app:showAsAction="never" />
 </menu>

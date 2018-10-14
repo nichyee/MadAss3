@@ -6,8 +6,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +23,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mad.assignment3.Models.User;
+import com.mad.assignment3.R;
 import com.mad.assignment3.Views.RegisterActivity;
 
 import java.util.UUID;
@@ -46,30 +49,6 @@ public class RegisterActivityPresenter {
         mUserRef = firebaseDatabase.getReference();
     }
 
-    private static void registerUser(String email, String password, final String name) {
-            Task<AuthResult> authResultTask = mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success");
-                                mFirebaseUser = mAuth.getCurrentUser();
-                                assert mFirebaseUser != null;
-                                updateName(mFirebaseUser, name);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                mView.updateUI(null);
-                            }
-                        }
-                    });
-    }
-
-    private static User generateUser(String name, String email) {
-        return new User(name, email);
-    }
-
     private static void updateName(FirebaseUser firebaseUser, String name) {
         UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
@@ -77,10 +56,18 @@ public class RegisterActivityPresenter {
         firebaseUser.updateProfile(profileChangeRequest);
     }
 
-    public interface View {
-        void updateUI(User user);
+    public void clearAllFields() {
+        EditText nameEditText = mActivity.findViewById(R.id.full_name);
+        EditText emailEditText = mActivity.findViewById(R.id.email);
+        EditText passwordEditText = mActivity.findViewById(R.id.password);
+
+        nameEditText.setText("");
+        emailEditText.setText("");
+        passwordEditText.setText("");
     }
 
+    public interface View {
+    }
 
     @SuppressLint("StaticFieldLeak")
     public static class RegisterUserAsync extends AsyncTask<Void, Void, User> {
@@ -100,52 +87,79 @@ public class RegisterActivityPresenter {
 
         @Override
         protected void onPreExecute() {
-            System.out.println("Help");
             super.onPreExecute();
-            mDialog.dismiss();
-            mDialog.setMessage("Please Wait");
             mDialog.show();
         }
 
         @Override
         protected User doInBackground(Void... voids) {
 
-            registerUser(mEmail, mPassword, mName);
             Task<AuthResult> authResultTask = mAuth.createUserWithEmailAndPassword(mEmail, mPassword);
-//                    .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<AuthResult> task) {
-//                            if (task.isSuccessful()) {
-//                                // Sign in success, update UI with the signed-in user's information
-//                                Log.d(TAG, "createUserWithEmail:success");
-//
-//                                User user = new User(mName, mEmail);
-//
-//                                //mView.updateUI(user);
-//                            } else {
-//                                // If sign in fails, display a message to the user.
-//                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-//                                //mView.updateUI(null);
-//                            }
-//                        }
-//                    });
             do {
 
             } while (!authResultTask.isComplete());
             mFirebaseUser = mAuth.getCurrentUser();
             updateName(mFirebaseUser, mName);
-            return generateUser(mName, mEmail);
+            User user = new User(mName, mEmail);
+            mUserRef.child("users").push().setValue(user);
+            return user;
         }
 
         @Override
         protected void onPostExecute(User user) {
             super.onPostExecute(user);
-            mUserRef.child("users").push().setValue(user);
-
             if (mDialog.isShowing()) {
                 mDialog.dismiss();
             }
-            mView.updateUI(user);
+            updateUI(user);
         }
     }
+
+    private static void updateUI(User user) {
+        if (user != null) {
+            mActivity.finish();
+        }
+
+    }
+
+    public static boolean validateForm() {
+        boolean valid = true;
+
+        EditText nameEditText = mActivity.findViewById(R.id.full_name);
+        EditText emailEditText = mActivity.findViewById(R.id.email);
+        EditText passwordEditText = mActivity.findViewById(R.id.password);
+
+        String email = emailEditText.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            emailEditText.setError("Required.");
+            valid = false;
+        } else if (!email.contains("@") || !email.contains(".")) {
+            emailEditText.setError("Please input a valid email address");
+            valid = false;
+        } else {
+            emailEditText.setError(null);
+        }
+
+        String password = passwordEditText.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            passwordEditText.setError("Required.");
+            valid = false;
+        } else if (password.length() < 6) {
+            passwordEditText.setError("Password must be longer than six characters");
+            valid = false;
+        } else {
+            passwordEditText.setError(null);
+        }
+
+        String name = passwordEditText.getText().toString();
+        if (TextUtils.isEmpty(name)) {
+            nameEditText.setError("Required.");
+            valid = false;
+        } else {
+            nameEditText.setError(null);
+        }
+
+        return valid;
+    }
+
 }
