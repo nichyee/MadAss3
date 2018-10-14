@@ -8,6 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
         android:orientation="vertical">
 
 
@@ -21,7 +23,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="icon"
+                android:contentDescription="@string/application_icon"
 
                 android:src="@drawable/icon" />
             <!-- image from http://www.iconarchive.com/show/100-flat-icons-by-graphicloads/home-icon.html -->
@@ -39,14 +41,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="Email" />
+                android:hint="@string/email" />
 
             <EditText
                 android:id="@+id/password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="Password" />
+                android:hint="@string/password" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,13 +62,13 @@
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login" />
+                android:text="@string/login" />
 
             <Button
                 android:id="@+id/register_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Register" />
+                android:text="@string/register" />
         </LinearLayout>
     </LinearLayout>
 

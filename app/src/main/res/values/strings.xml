@@ -7,4 +7,23 @@
     </string-array>
     <string name="title_activity_household">HouseholdActivity</string>
     <string name="title_activity_shopping_list">shopping_list</string>
+    <string name="add_new_member">Add New Member</string>
+    <string name="application_icon">application icon</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="register_account">Register Account</string>
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="submit">Submit</string>
+    <string name="clear_all">Clear All</string>
+    <string name="list_item">List Item</string>
+    <string name="quantity">Quantity</string>
+    <string name="add_new_item">Add New Item</string>
+    <string name="item_name">Item Name</string>
+    <string name="quantity">Quantity</string>
+    <string name="create_new_household">Create New Household</string>
+    <string name="household_name">Household Name</string>
 </resources>

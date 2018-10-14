@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5sp"
-                    android:text="Register Account"
+                    android:text="@string/register_account"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -57,20 +57,20 @@
                         android:id="@+id/full_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Full Name"
+                        android:hint="@string/full_name"
                         android:inputType="textPersonName|textCapWords" />
 
                     <EditText
                         android:id="@+id/email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Email"
+                        android:hint="@string/email"
                         android:inputType="textEmailAddress" />
                     <EditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:inputType="textPassword" />
                 </LinearLayout>
             </LinearLayout>
@@ -88,14 +88,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Submit" />
+                android:text="@string/submit" />
 
             <Button
                 android:id="@+id/clear_all_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Clear All" />
+                android:text="@string/clear_all" />
 
         </LinearLayout>
     </LinearLayout>

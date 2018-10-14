@@ -34,6 +34,11 @@ public class User {
     }
 
 
+    /**
+     * This constructor uses two parameters to create an object
+     * @param name the name of the user
+     * @param email the user's email
+     */
     public User(String name, String email){
         mName = name;
         mEmail = email;

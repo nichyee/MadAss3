@@ -52,7 +52,7 @@ public class ShoppingListActivityPresenter {
 
     public void addMemberDialog(Context context, ArrayList<User> users) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View addItemView = layoutInflater.inflate(R.layout.dialog_add_member, null);
+        @SuppressLint("InflateParams") View addItemView = layoutInflater.inflate(R.layout.dialog_add_member, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setView(addItemView);
@@ -120,7 +120,7 @@ public class ShoppingListActivityPresenter {
 
     public void showAddDialog(Context context) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View addItemView = layoutInflater.inflate(R.layout.dialog_add_new_item, null);
+        @SuppressLint("InflateParams") View addItemView = layoutInflater.inflate(R.layout.dialog_add_new_item, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setView(addItemView);

@@ -23,6 +23,18 @@ public class Recipe {
 
     public Recipe(){}
 
+    /**
+     * This constructor is using the fields contained from the Food2Fork API
+     * Not all fields are used
+     * @param imageURL this is the URL for a picture of the recipe
+     * @param sourceURL this is the URL where the recipe is originally found
+     * @param f2FURL this is the Food2Fork URL
+     * @param title this is the name of the recipe
+     * @param publisher this is the name of the recipe's publisher
+     * @param publisherURL this is the URL of the publisher's homepage
+     * @param socialRank this is the ranking given to the recipe
+     * @param page this is used to gain access to even more recipes
+     */
     public Recipe(URL imageURL, URL sourceURL, URL f2FURL, String title, String publisher, URL publisherURL, double socialRank, int page) {
         this.mImageURL = imageURL;
         this.mSourceURL = sourceURL;

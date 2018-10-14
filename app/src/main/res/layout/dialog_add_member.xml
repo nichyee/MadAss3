@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add New Member"
+        android:text="@string/add_new_member"
         android:textSize="30sp"
         android:textStyle="bold"
         android:paddingBottom="20sp"/>

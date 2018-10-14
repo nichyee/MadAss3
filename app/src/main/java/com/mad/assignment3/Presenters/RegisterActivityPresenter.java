@@ -34,14 +34,11 @@ import static com.google.firebase.internal.FirebaseAppHelper.getUid;
 
 public class RegisterActivityPresenter {
 
-    private static View mView;
-    private static FirebaseUser mFirebaseUser;
     private static FirebaseAuth mAuth;
     private static Activity mActivity;
     private static DatabaseReference mUserRef;
 
     public RegisterActivityPresenter(View view, Activity activity, FirebaseAuth auth) {
-        mView = view;
         mActivity = activity;
         mAuth = auth;
 
@@ -95,11 +92,13 @@ public class RegisterActivityPresenter {
         protected User doInBackground(Void... voids) {
 
             Task<AuthResult> authResultTask = mAuth.createUserWithEmailAndPassword(mEmail, mPassword);
+            //noinspection StatementWithEmptyBody
             do {
 
             } while (!authResultTask.isComplete());
-            mFirebaseUser = mAuth.getCurrentUser();
-            updateName(mFirebaseUser, mName);
+            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+            assert firebaseUser != null;
+            updateName(firebaseUser, mName);
             User user = new User(mName, mEmail);
             mUserRef.child("users").push().setValue(user);
             return user;
