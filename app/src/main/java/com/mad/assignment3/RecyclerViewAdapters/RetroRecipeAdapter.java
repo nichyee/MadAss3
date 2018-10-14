@@ -1,5 +1,6 @@
 package com.mad.assignment3.RecyclerViewAdapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,9 +14,7 @@ import android.widget.TextView;
 
 import com.mad.assignment3.Models.Recipe;
 import com.mad.assignment3.R;
-import com.mad.assignment3.RetrofitFiles.RetroRecipe;
 
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.List;
 
@@ -39,13 +38,14 @@ public class RetroRecipeAdapter extends RecyclerView.Adapter<RetroRecipeAdapter.
         return new CustomViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         final Recipe recipe= mDataList.get(position);
 
         holder.name.setText(recipe.getTitle());
         holder.code.setText(recipe.getPublisher());
-        holder.rating.setText(new StringBuilder().append("Recipe Rating: ").append(String.valueOf(recipe.getSocialRank())).toString());
+        holder.rating.setText(mContext.getString(R.string.recipe_rating) + String.valueOf(recipe.getSocialRank()));
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +66,7 @@ public class RetroRecipeAdapter extends RecyclerView.Adapter<RetroRecipeAdapter.
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView name, rating, code;
+        private TextView name, rating, code;
         public RelativeLayout layout;
 
         CustomViewHolder(View itemView) {

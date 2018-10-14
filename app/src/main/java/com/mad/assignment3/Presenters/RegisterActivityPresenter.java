@@ -3,19 +3,11 @@ package com.mad.assignment3.Presenters;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApiNotAvailableException;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,17 +16,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mad.assignment3.Models.User;
 import com.mad.assignment3.R;
-import com.mad.assignment3.Views.RegisterActivity;
-
-import java.util.UUID;
-import java.util.concurrent.Executor;
-
-import static android.content.ContentValues.TAG;
-import static com.google.firebase.internal.FirebaseAppHelper.getUid;
 
 public class RegisterActivityPresenter {
 
     private static FirebaseAuth mAuth;
+    @SuppressLint("StaticFieldLeak")
     private static Activity mActivity;
     private static DatabaseReference mUserRef;
 
@@ -46,6 +32,11 @@ public class RegisterActivityPresenter {
         mUserRef = firebaseDatabase.getReference();
     }
 
+    /**
+     * This method is called to add a display name to the current authenticated user
+     * @param firebaseUser the currently authenticated user
+     * @param name the name input by the user
+     */
     private static void updateName(FirebaseUser firebaseUser, String name) {
         UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
@@ -53,6 +44,9 @@ public class RegisterActivityPresenter {
         firebaseUser.updateProfile(profileChangeRequest);
     }
 
+    /**
+     * This method clears all data that has been input by the user
+     */
     public void clearAllFields() {
         EditText nameEditText = mActivity.findViewById(R.id.full_name);
         EditText emailEditText = mActivity.findViewById(R.id.email);
@@ -66,6 +60,9 @@ public class RegisterActivityPresenter {
     public interface View {
     }
 
+    /**
+     * This Async Task attempts to register a user to the Firebase System
+     */
     @SuppressLint("StaticFieldLeak")
     public static class RegisterUserAsync extends AsyncTask<Void, Void, User> {
 
@@ -74,9 +71,8 @@ public class RegisterActivityPresenter {
         private String mPassword;
         public static ProgressDialog mDialog;
 
-        public RegisterUserAsync(String name, String email, String password, ProgressDialog dialog) {
-            dialog = new ProgressDialog(mActivity);
-            mDialog = dialog;
+        public RegisterUserAsync(String name, String email, String password) {
+            mDialog = new ProgressDialog(mActivity);
             this.mName = name;
             this.mEmail = email;
             this.mPassword = password;
@@ -114,6 +110,10 @@ public class RegisterActivityPresenter {
         }
     }
 
+    /**
+     * This method attempts to close the current view if there is a generated user
+     * @param user a user that may or may not have been generated
+     */
     private static void updateUI(User user) {
         if (user != null) {
             mActivity.finish();
@@ -121,6 +121,10 @@ public class RegisterActivityPresenter {
 
     }
 
+    /**
+     * This method is called to check if the inputs into the form are all valid
+     * @return a boolean value, indicating whether or not the form is valid
+     */
     public static boolean validateForm() {
         boolean valid = true;
 

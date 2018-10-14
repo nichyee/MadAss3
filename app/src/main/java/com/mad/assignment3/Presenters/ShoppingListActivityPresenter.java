@@ -34,6 +34,9 @@ import java.util.HashMap;
 
 public class ShoppingListActivityPresenter {
 
+    private static final String HOUSEHOLD_CHILD =  "households";
+    private static final String SHOPPING_LIST_CHILD = "shoppingList";
+
     private Context mContext;
     private Activity mActivity;
     private FirebaseAuth mAuth;
@@ -50,6 +53,11 @@ public class ShoppingListActivityPresenter {
         this.mReference = FirebaseDatabase.getInstance().getReference();
     }
 
+    /**
+     * This method is called when the user attempts to add more users to a household
+     * @param context the current context of the application
+     * @param users a list of users available to be added to the household
+     */
     public void addMemberDialog(Context context, ArrayList<User> users) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         @SuppressLint("InflateParams") View addItemView = layoutInflater.inflate(R.layout.dialog_add_member, null);
@@ -73,6 +81,12 @@ public class ShoppingListActivityPresenter {
         alertDialog.show();
     }
 
+    /**
+     * This method sets up a list of all users that are available to be added to the household
+     * @param dataSnapshot an object received from Firebase, containing a list of users
+     * @param currentUsers a list of all users currently associated with the household
+     * @return a list of users that can be added to the household
+     */
     public ArrayList<User> setupNewUserList(DataSnapshot dataSnapshot, ArrayList<User> currentUsers) {
         ArrayList<User> users = new ArrayList<>();
         HashMap hashMap = (HashMap) dataSnapshot.getValue();
@@ -85,7 +99,6 @@ public class ShoppingListActivityPresenter {
                 users.add(newUser);
             }
         }
-        ArrayList<Integer> indexList = new ArrayList<>();
         for (User user : currentUsers) {
             for (int i = 0; i < users.size(); i++){
                 if (user.getName().equals(users.get(i).getName())) {
@@ -96,6 +109,11 @@ public class ShoppingListActivityPresenter {
         return users;
     }
 
+    /**
+     * This method generates a list of all currently registered users
+     * @param dataSnapshot an object received from Firebase, containing a list of users
+     * @return a list of all currently registered users
+     */
     public ArrayList<User> setupUserList(DataSnapshot dataSnapshot) {
         ArrayList<User> users = new ArrayList<>();
         HashMap hashMap = (HashMap) dataSnapshot.getValue();
@@ -111,13 +129,20 @@ public class ShoppingListActivityPresenter {
         return users;
     }
 
+    /**
+     * This method is called when the user indicates that they have completeed their shop, and no longer needs the current items
+     */
     public void nukeShoppingList() {
-        DatabaseReference itemRef = mReference.child("households").child(mHouseholdKey).child("shoppingList");
+        DatabaseReference itemRef = mReference.child(HOUSEHOLD_CHILD).child(mHouseholdKey).child(SHOPPING_LIST_CHILD);
         itemRef.removeValue();
-        Toast toast = Toast.makeText(mContext, "shopping list cleared", Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(mContext, R.string.cleared_list, Toast.LENGTH_LONG);
         toast.show();
     }
 
+    /**
+     * This method generates the dialog used to add items to the shopping list
+     * @param context the current context of the application
+     */
     public void showAddDialog(Context context) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         @SuppressLint("InflateParams") View addItemView = layoutInflater.inflate(R.layout.dialog_add_new_item, null);
@@ -130,21 +155,21 @@ public class ShoppingListActivityPresenter {
 
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("Create",
+                .setPositiveButton(R.string.create,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String name = itemNameEditText.getText().toString();
                                 String quantity = itemQuantityEditText.getText().toString();
                                 if (!validateForm(itemNameEditText, itemQuantityEditText)) {
-                                    Toast.makeText(mActivity, "Please make sure both name and quantity are filled out",
+                                    Toast.makeText(mActivity, R.string.name_quantity_warning,
                                             Toast.LENGTH_LONG).show();
                                     return;
                                 }
                                 new AddItemAsync(mActivity, name, quantity).execute();
                             }
                         })
-                .setNegativeButton("Cancel",
+                .setNegativeButton(R.string.cancel,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -155,12 +180,16 @@ public class ShoppingListActivityPresenter {
         alertDialog.show();
     }
 
+    /**
+     * This method is called to check if the inputs into the form are all valid
+     * @return a boolean value, indicating whether or not the form is valid
+     */
     private boolean validateForm(EditText nameEditText, EditText amountEditText) {
         boolean valid = true;
 
         String name = nameEditText.getText().toString();
         if (TextUtils.isEmpty(name)) {
-            nameEditText.setError("Required.");
+            nameEditText.setError(mContext.getString(R.string.required));
             valid = false;
         } else {
             nameEditText.setError(null);
@@ -168,7 +197,7 @@ public class ShoppingListActivityPresenter {
 
         String amount = amountEditText.getText().toString();
         if (TextUtils.isEmpty(amount)) {
-            amountEditText.setError("Required");
+            amountEditText.setError(mContext.getString(R.string.required));
             valid = false;
         } else {
             amountEditText.setError(null);
@@ -177,6 +206,12 @@ public class ShoppingListActivityPresenter {
         return valid;
     }
 
+    /**
+     * This method sets up the recycler view to display the information
+     * @param context the current context of the application
+     * @param mItems a list of shopping list items
+     * @param recyclerView the target recycler view
+     */
     public void setupRecyclerView(Context context, ArrayList<Item> mItems, RecyclerView recyclerView) {
         ItemAdapter adapter = new ItemAdapter(context, mItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
@@ -185,6 +220,11 @@ public class ShoppingListActivityPresenter {
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * This method generates a list of shopping list items
+     * @param dataSnapshot the data from Firebase
+     * @return a list of shopping list items attached to the household
+     */
     public ArrayList<Item> setupItemList(DataSnapshot dataSnapshot) {
         ArrayList<Item> items = new ArrayList<>();
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -194,6 +234,9 @@ public class ShoppingListActivityPresenter {
         return items;
     }
 
+    /**
+     * This Async Task is called when a user attempts to add a shopping list item
+     */
     @SuppressLint("StaticFieldLeak")
     private class AddItemAsync extends AsyncTask<Void, Void, Item> {
 

@@ -27,6 +27,12 @@ public class LoginActivityPresenter {
         this.mActivity = activity;
     }
 
+    /**
+     * Called when a user attempts to sign in using their credentials
+     * @param email the email that has been input by the user
+     * @param password the password that has been input by the user
+     * @param auth an object containing the current authenticated user
+     */
     public void signInProcess(String email, String password, final FirebaseAuth auth) {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
@@ -54,6 +60,10 @@ public class LoginActivityPresenter {
         void updateUI(FirebaseUser user);
     }
 
+    /**
+     * This method checks to see whether or not all data has been correctly input
+     * @return a boolean value indicating whether the form is valid or not
+     */
     public boolean validateForm() {
         boolean valid = true;
 

@@ -1,19 +1,14 @@
 package com.mad.assignment3.Views;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import com.mad.assignment3.Models.User;
 import com.mad.assignment3.Presenters.RegisterActivityPresenter;
 import com.mad.assignment3.R;
 
@@ -45,10 +40,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
                 String email = mEmailField.getText().toString();
                 String password = mPasswordField.getText().toString();
                 ProgressDialog dialog = new ProgressDialog(RegisterActivity.this);
-                if (!mPresenter.validateForm()) {
+                if (!RegisterActivityPresenter.validateForm()) {
                     return;
                 }
-                new RegisterActivityPresenter.RegisterUserAsync(name, email, password, dialog).execute();
+                new RegisterActivityPresenter.RegisterUserAsync(name, email, password).execute();
             }
         });
 

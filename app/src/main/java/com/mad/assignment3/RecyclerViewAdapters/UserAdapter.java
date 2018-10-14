@@ -52,6 +52,10 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     }
 
+    /**
+     * This method adds a user to the household
+     * @param user the user that is to be added to the household
+     */
     private void addUser(User user) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("households").child(mFirebaseKey).child("users");
         databaseReference.push().setValue(user);
@@ -65,10 +69,10 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView userName, userEmail;
+        private TextView userName, userEmail;
         public LinearLayout layout;
 
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.member_name);
             userEmail = itemView.findViewById(R.id.member_email);

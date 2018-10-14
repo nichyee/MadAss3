@@ -72,6 +72,10 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityPre
         });
     }
 
+    /**
+     * This method updates the UI to the list of a user's households
+     * @param firebaseUser the currently authenticated user
+     */
     public void updateUI(FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
             Intent intent = new Intent(LoginActivity.this, HouseholdActivity.class);

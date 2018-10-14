@@ -1,4 +1,4 @@
-package com.mad.assignment3.RetrofitFiles;
+package com.mad.assignment3.Models;
 
 import com.google.gson.annotations.SerializedName;
 import com.mad.assignment3.Models.Recipe;

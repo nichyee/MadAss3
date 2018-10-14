@@ -1,6 +1,6 @@
 package com.mad.assignment3.RetrofitFiles;
 
-import java.util.List;
+import com.mad.assignment3.Models.RetroRecipe;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

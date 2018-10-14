@@ -54,22 +54,12 @@ public class HouseholdActivityPresenter {
         this.mUsers = new ArrayList<>();
     }
 
-    public void goToActivity(View view) {
-        TextView textView = view.findViewById(R.id.house_key);
-        mHouseholdName = textView.getText().toString();
-
-        Intent intent = new Intent(view.getContext(), ShoppingListActivity.class);
-        intent.putExtra(ShoppingListActivity.HOUSEHOLD_KEY, mHouseholdName);
-        mActivity.startActivity(intent);
-    }
-
-    public void setUserList(ArrayList<User> users){
-        this.mUsers = users;
-    }
-
+    /**
+     * This method generates the dialog used to create a new household
+     */
     public void showAddDialog() {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View addHouseholdView = layoutInflater.inflate(R.layout.dialog_create_household, null);
+        @SuppressLint("InflateParams") View addHouseholdView = layoutInflater.inflate(R.layout.dialog_create_household, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
         alertDialogBuilder.setView(addHouseholdView);
@@ -84,7 +74,6 @@ public class HouseholdActivityPresenter {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mHouseholdName = householdNameEt.getText().toString();
-                                //mDialog.dismiss();
                                 new AddHouseholdAsync(mActivity).execute();
                             }
                         })
@@ -99,12 +88,18 @@ public class HouseholdActivityPresenter {
         alertDialog.show();
     }
 
+    /**
+     * This method is called when the user wishes to sign out
+     */
     public void signOut(){
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(mContext, LoginActivity.class);
         mActivity.startActivity(intent);
     }
 
+    /**
+     * This Async Task is called when a user attempts to generate a new household
+     */
     @SuppressLint("StaticFieldLeak")
     private class AddHouseholdAsync extends AsyncTask<Void, Void, Household> {
 
@@ -143,6 +138,10 @@ public class HouseholdActivityPresenter {
         }
     }
 
+    /**
+     * This method is called in the Async task to create a new household object
+     * @return this returns a newly generated household object
+     */
     private Household generateHousehold() {
         String name = mAuth.getCurrentUser().getDisplayName();
         String email = mAuth.getCurrentUser().getEmail();
@@ -152,6 +151,11 @@ public class HouseholdActivityPresenter {
         return new Household(mHouseholdName);
     }
 
+    /**
+     * This method creates the list of households to be used in the Recycler View
+     * @param dataSnapshot a DataSnapshot object generated from Firebase
+     * @return a list of households created from Firebase information
+     */
     public ArrayList<Household> setupLists(DataSnapshot dataSnapshot) {
         ArrayList<Household> households = new ArrayList<>();
         for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -202,6 +206,12 @@ public class HouseholdActivityPresenter {
         return households;
     }
 
+    /**
+     * This method sets up the recycler view, generating the appropriate visuals
+     * @param context this is the current context that is being used
+     * @param households a list of households to be presented by the recycler view
+     * @param view the exact view found from the layout file
+     */
     public void setupRecycler(Context context, ArrayList<Household> households, RecyclerView view){
         HouseholdAdapter adapter = new HouseholdAdapter(context, households);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
