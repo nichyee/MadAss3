@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Assignment3</string>
+    <string name="app_name">Whole Meals</string>
 
     <string-array name="phones_array">
         <item>Home</item>
@@ -27,7 +27,7 @@
     <string name="name_quantity_warning">Please make sure both name and quantity are filled out</string>
     <string name="cancel">Cancel</string>
     <string name="error">Something went wrong…Please try later!</string>
-    <string name="recipe_rating">Recipe Rating:</string>
+    <string name="recipe_rating">User Rating:</string>
     <string name="create">Create</string>
     <string name="required">Required.</string>
     <string name="valid_email_address">Please input a valid email address</string>
@@ -35,4 +35,5 @@
     <string name="incorrect_user_pass">Incorrect Username / Password</string>
     <string name="please_wait">Please Wait</string>
     <string name="please_waits">Please Wait</string>
+    <string name="food_2_fork_top_recipes">Food 2 Fork Top Recipes</string>
 </resources>

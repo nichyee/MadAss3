@@ -42,6 +42,7 @@ public class HouseholdActivityPresenter {
     private static final String NAME_CONSTANT = "name";
     private static final String EMAIL_CONSTANT = "email";
     private static final String SHOPPING_LIST_CONSTANT = "shoppingList";
+    private static final String AMOUNT_CONSTANT = "amount";
 
 
     private ProgressDialog mDialog;
@@ -188,7 +189,7 @@ public class HouseholdActivityPresenter {
                 for (Object object : shoppingListHashMap.values()) {
                     HashMap temp = (HashMap) object;
                     String name = temp.get(NAME_CONSTANT).toString();
-                    String amount = temp.get(EMAIL_CONSTANT).toString();
+                    String amount = temp.get(AMOUNT_CONSTANT).toString();
                     Item item = new Item(name, amount);
                     items.add(item);
                 }
