@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_weight="12"
+            android:layout_marginLeft="16sp"
             android:text="Shopping Item" />
 
         <TextView

@@ -40,10 +40,12 @@ public class RegisterActivityPresenter {
      * @param name the name input by the user
      */
     private static void updateName(FirebaseUser firebaseUser, String name) {
-        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
-                .build();
-        firebaseUser.updateProfile(profileChangeRequest);
+        if (firebaseUser != null) {
+            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(name)
+                    .build();
+            firebaseUser.updateProfile(profileChangeRequest);
+        }
     }
 
     /**
@@ -83,6 +85,7 @@ public class RegisterActivityPresenter {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            mDialog.setMessage(mActivity.getString(R.string.please_wait));
             mDialog.show();
         }
 
@@ -92,13 +95,13 @@ public class RegisterActivityPresenter {
             Task<AuthResult> authResultTask = mAuth.createUserWithEmailAndPassword(mEmail, mPassword);
             //noinspection StatementWithEmptyBody
             do {
-
             } while (!authResultTask.isComplete());
             FirebaseUser firebaseUser = mAuth.getCurrentUser();
-            assert firebaseUser != null;
             updateName(firebaseUser, mName);
             User user = new User(mName, mEmail);
-            mUserRef.child(USERS_CONSTANT).push().setValue(user);
+            if (firebaseUser != null) {
+                mUserRef.child(USERS_CONSTANT).push().setValue(user);
+            }
             return user;
         }
 
@@ -134,6 +137,14 @@ public class RegisterActivityPresenter {
         EditText emailEditText = mActivity.findViewById(R.id.email);
         EditText passwordEditText = mActivity.findViewById(R.id.password);
 
+        String name = passwordEditText.getText().toString();
+        if (TextUtils.isEmpty(name)) {
+            nameEditText.setError(mActivity.getString(R.string.required));
+            valid = false;
+        } else {
+            nameEditText.setError(null);
+        }
+
         String email = emailEditText.getText().toString();
         if (TextUtils.isEmpty(email)) {
             emailEditText.setError(mActivity.getString(R.string.required));
@@ -154,14 +165,6 @@ public class RegisterActivityPresenter {
             valid = false;
         } else {
             passwordEditText.setError(null);
-        }
-
-        String name = passwordEditText.getText().toString();
-        if (TextUtils.isEmpty(name)) {
-            nameEditText.setError(mActivity.getString(R.string.required));
-            valid = false;
-        } else {
-            nameEditText.setError(null);
         }
 
         return valid;

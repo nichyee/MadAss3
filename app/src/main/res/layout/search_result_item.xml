@@ -33,5 +33,12 @@
         android:text="Publisher: Me"
         android:textSize="15sp" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_name"
+        android:layout_marginTop="8sp"
+        android:layout_alignParentRight="true" />
+
 
 </RelativeLayout>
